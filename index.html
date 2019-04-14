@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Practical Projects to Learn Programming</title>
+  <link href="src/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body>
+  <header>
+    <h1>Karan Goel's Practical Projects to Learn Programming</h1>
+    <h2>
+      A checklist for <a href="https://github.com/karan/Projects#numbers" target="_blank">Karan Goel's practice projects
+        repo</a>.
+    </h2>
+  </header>
+  <main>
+    <header>
+      <p>
+        Use this interactive checklist to track your progress on Karan's
+        suggested projects to learn a new programming language.
+      </p>
+      <p class="warning">
+        Note: This will only track history on a single device. Clearing your
+        cache will delete your progress. It's just localStorage.
+      </p>
+    </header>
+    <section id="progress">
+      <p class="progress-tracker">Total: <span id="progress-total"></span></p>
+    </section>
+    <section class="checklist" id="numbers">
+      <header>
+        <h3>Numbers</h3>
+      </header>
+      <ul>
+        <li><label for="p1"><input type="checkbox" id="p1" />Find PI to the Nth Digit - Enter a number and have the
+            program
+            generate PI up to that many decimal
+            places. Keep a limit to how far the program will go.</label></li>
+        <li><label for="p2"><input type="checkbox" id="p2" />Find e to the Nth Digit - Just like the previous problem,
+            but
+            with e instead of PI. Enter a number and
+            have the program generate e up to that many decimal places. Keep a limit to how far the program will go.
+
+          </label></li>
+        <li><label for="p3"><input type="checkbox" id="p3" />Fibonacci Sequence - Enter a number and have the program
+            generate
+            the Fibonacci sequence to that number
+            or to the Nth number.</label></li>
+        <li><label for="p4"><input type="checkbox" id="p4" />Prime Factorization - Have the user enter a number and find
+            all
+            Prime Factors (if there are any) and
+            display them.</label></li>
+        <li><label for="p5"><input type="checkbox" id="p5" />Next Prime Number - Have the program find prime numbers
+            until
+            the
+            user chooses to stop asking for the
+            next one.</label></li>
+        <li><label for="p6"><input type="checkbox" id="p6" />Find Cost of Tile to Cover W x H Floor - Calculate the
+            total
+            cost
+            of tile it would take to cover a
+            floor plan of width and height, using a cost entered by the user.</label></li>
+        <li><label for="p7"><input type="checkbox" id="p7" />Mortgage Calculator - Calculate the monthly payments of a
+            fixed
+            term mortgage over given Nth terms at a
+            given interest rate. Also figure out how long it will take the user to pay back the loan. For added
+            complexity, add an
+            option for users to select the compounding interval (Monthly, Weekly, Daily, Continually).
+          </label></li>
+        <li><label for="p8"><input type="checkbox" id="p8" />Change Return Program - The user enters a cost and then the
+            amount of money given. The program will
+            figure out the change and the number of quarters, dimes, nickels, pennies needed for the change. debugger
+            eval </label></li>
+        <li><label for="p9"><input type="checkbox" id="p9" />Binary to Decimal and Back Converter - Develop a converter
+            to
+            convert a decimal number to binary or a
+            binary number to its decimal equivalent.</label></li>
+        <li><label for="p10"><input type="checkbox" id="p10" />Calculator - A simple calculator to do basic operators.
+            Make
+            it
+            a
+            scientific calculator for added
+            complexity.</label></li>
+        <li><label for="p11"><input type="checkbox" id="p11" />Unit Converter (temp, currency, volume, mass and more) -
+            Converts
+            various units between one another.
+            The user enters the type of unit being entered, the type of unit they want to convert to and then the value.
+            The program
+            will then make the conversion.</label></li>
+        <li><label for="p12"><input type="checkbox" id="p12" />Alarm Clock - A simple clock where it plays a sound after
+            X
+            number of minutes/seconds or at a
+            particular time.</label></li>
+        <li><label for="p13"><input type="checkbox" id="p13" />Distance Between Two Cities - Calculates the distance
+            between
+            two
+            cities and allows the user to specify
+            a unit of distance. This program may require finding coordinates for the cities like latitude and longitude.
+            debugger
+            eval </label></li>
+        <li><label for="p14"><input type="checkbox" id="p14" />Credit Card Validator - Takes in a credit card number
+            from a
+            common credit card vendor (Visa,
+            MasterCard, American Express, Discoverer) and validates it to make sure that it is a valid number (look into
+            how credit
+            cards use a checksum).</label></li>
+        <li><label for="p15"><input type="checkbox" id="p15" />Tax Calculator - Asks the user to enter a cost and either
+            a
+            country or state tax. It then returns the
+            tax plus the total cost with tax.</label></li>
+        <li><label for="p16"><input type="checkbox" id="p16" />Factorial Finder - The Factorial of a positive integer,
+            n,
+            is
+            defined as the product of the sequence n,
+            n-1, n-2, ...1 and the factorial of zero, 0, is defined as being 1. Solve this using both loops and
+            recursion. debugger
+            eval </label></li>
+        <li><label for="p17"><input type="checkbox" id="p17" />Complex Number Algebra - Show addition, multiplication,
+            negation,
+            and inversion of complex numbers in
+            separate functions. (Subtraction and division operations can be made with pairs of these operations.) Print
+            the results
+            for each operation tested.</label></li>
+        <li><label for="p18"><input type="checkbox" id="p18" />Happy Numbers - A happy number is defined by the
+            following
+            process. Starting with any positive integer,
+            replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1
+            (where it
+            will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process
+            ends in 1
+            are happy numbers, while those that do not end in 1 are unhappy numbers. Display an example of your output
+            here. Find
+            first 8 happy numbers.</label></li>
+        <li><label for="p19"><input type="checkbox" id="p19" />Number Names - Show how to spell out a number in English.
+            You
+            can
+            use a preexisting implementation or
+            roll your own, but you should support inputs up to at least one million (or the maximum value of your
+            language's default
+            bounded integer type, if that's less). <em>Optional: Support for inputs other than positive integers (like
+              zero,
+              negative integers, and floating-point numbers).</em></label></li>
+        <li><label for="p20"><input type="checkbox" id="p20" />Coin Flip Simulation - Write some code that simulates
+            flipping
+            a
+            single coin however many times the
+            user decides. The code should record the outcomes and count the number of tails and heads.
+          </label></li>
+        <li><label for="p21"><input type="checkbox" id="p21" />Limit Calculator - Ask the user to enter f(x) and the
+            limit
+            value, then return the value of the limit
+            statement <em>Optional: Make the calculator capable of supporting infinite limits.</em>
+          </label></li>
+        <li><label for="p22"><input type="checkbox" id="p22" />Fast Exponentiation - Ask the user to enter 2 integers a
+            and
+            b
+            and output a^b (i.e. pow(a,b)) in O(lg
+            n) time complexity.</label></li>
+      </ul>
+    </section>
+    <section class="checklist" id="classic-algorithms">
+      <header>
+        <h3>Classic Algorithms</h3>
+      </header>
+      <ul>
+        <li><label for="p23"><input type="checkbox" id="p23" />Collatz Conjecture - Start with a number <em>n &gt;
+              1</em>.
+            Find
+            the number of steps it takes to reach
+            one using the following process: If <em>n</em> is even, divide it by 2. If <em>n</em> is odd, multiply it by
+            3 and add
+            1.</label></li>
+        <li><label for="p24"><input type="checkbox" id="p24" />Sorting - Implement two types of sorting algorithms:
+            Merge
+            sort
+            and bubble sort.
+          </label></li>
+        <li><label for="p25"><input type="checkbox" id="p25" />Closest pair problem - The closest pair of points problem
+            or
+            closest pair problem is a problem of
+            computational geometry: given <em>n</em> points in metric space, find a pair of points with the smallest
+            distance
+            between them.</label></li>
+        <li><label for="p26"><input type="checkbox" id="p26" />Sieve of Eratosthenes - The sieve of Eratosthenes is one
+            of
+            the
+            most efficient ways to find all of the
+            smaller primes (below 10 million or so).</label></li>
+      </ul>
+    </section>
+    <section class="checklist" id="graph">
+      <header>
+        <h3>Graphs</h3>
+      </header>
+      <ul>
+        <li><label for="p27"><input type="checkbox" id="p27" />Graph from links - Create a program that will create a
+            graph
+            or
+            network from a series of links.
+          </label></li>
+        <li><label for="p28"><input type="checkbox" id="p28" />Eulerian Path - Create a program which will take as an
+            input
+            a
+            graph and output either a Eulerian path
+            or a Eulerian cycle, or state that it is not possible. A Eulerian Path starts at one node and traverses
+            every edge of a
+            graph through every node and finishes at another node. A Eulerian cycle is a eulerian Path that starts and
+            finishes at
+            the same node.</label></li>
+        <li><label for="p29"><input type="checkbox" id="p29" />Connected Graph - Create a program which takes a graph as
+            an
+            input and outputs whether every node is
+            connected or not.</label></li>
+        <li><label for="p30"><input type="checkbox" id="p30" />Dijkstra’s Algorithm - Create a program that finds the
+            shortest
+            path through a graph using its edges.
+          </label></li>
+        <li><label for="p31"><input type="checkbox" id="p31" />Minimum Spanning Tree - Create a program which takes a
+            connected,
+            undirected graph with weights and
+            outputs the minimum spanning tree of the graph i.e., a
+            subgraph that is a tree, contains all the vertices, and the sum of its weights is the least possible.
+
+          </label></li>
+      </ul>
+    </section>
+    <section class="checklist" id="data-structures">
+      <header>
+        <h3>Data Structures</h3>
+      </header>
+      <ul>
+        <li><label for="p32"><input type="checkbox" id="p32" />Inverted index - An <a
+              href="http://en.wikipedia.org/wiki/Inverted_index" rel="nofollow">Inverted
+              Index</a> is a data structure used to create full text search. Given a set of text files, implement a
+            program to
+            create an inverted index. Also create a user interface to do a search using that inverted index which
+            returns a list of
+            files that contain the query term / terms. The search index can be in memory.</label></li>
+      </ul>
+    </section>
+    <section class="checklist" id="text">
+      <header>
+        <h3>Text</h3>
+      </header>
+      <ul>
+        <li><label for="p33"><input type="checkbox" id="p33" />Fizz Buzz - Write a program that prints the numbers from
+            1
+            to
+            100. But for multiples of three print
+            “Fizz” instead of the number and for the multiples of five print “Buzz”. For numbers which are multiples of
+            both three
+            and five print “FizzBuzz”.</label></li>
+        <li><label for="p34"><input type="checkbox" id="p34" />Reverse a String - Enter a string and the program will
+            reverse
+            it
+            and print it out.
+          </label></li>
+        <li><label for="p35"><input type="checkbox" id="p35" />Pig Latin - Pig Latin is a game of alterations played on
+            the
+            English language game. To create the Pig
+            Latin form of an English word the initial consonant sound is transposed to the end of the word and an ay is
+            affixed
+            (Ex.: "banana" would yield anana-bay). Read Wikipedia for more information on rules.</label></li>
+        <li><label for="p36"><input type="checkbox" id="p36" />Count Vowels - Enter a string and the program counts the
+            number
+            of vowels in the text. For added
+            complexity have it report a sum of each vowel found.</label></li>
+        <li><label for="p37"><input type="checkbox" id="p37" />Check if Palindrome - Checks if the string entered by the
+            user
+            is
+            a palindrome. That is that it reads
+            the same forwards as backwards like “racecar”</label></li>
+        <li><label for="p38"><input type="checkbox" id="p38" />Count Words in a String - Counts the number of individual
+            words
+            in a string. For added complexity read
+            these strings in from a text file and generate a summary.</label></li>
+        <li><label for="p39"><input type="checkbox" id="p39" />Text Editor - Notepad style application that can open,
+            edit,
+            and
+            save text documents. <em>Optional: Add
+              syntax highlighting and other features.</em></label></li>
+        <li><label for="p40"><input type="checkbox" id="p40" />RSS Feed Creator - Given a link to RSS/Atom Feed, get all
+            posts
+            and display them.
+          </label></li>
+        <li><label for="p41"><input type="checkbox" id="p41" />Quote Tracker (market symbols etc) - A program which can
+            go
+            out
+            and check the current value of stocks
+            for a list of symbols entered by the user. The user can set how often the stocks are checked. For CLI, show
+            whether the
+            stock has moved up or down. <em>Optional: If GUI, the program can show green up and red down arrows to show
+              which
+              direction the stock value has moved.</em></label></li>
+        <li><label for="p42"><input type="checkbox" id="p42" />Guestbook / Journal - A simple application that allows
+            people
+            to
+            add comments or write journal entries.
+            It can allow comments or not and timestamps for all entries. Could also be made into a shout box.
+            <em>Optional: Deploy
+              it on Google App Engine or Heroku or any other PaaS (if possible, of course).</em></label></li>
+        <li><label for="p43"><input type="checkbox" id="p43" />Vigenere / Vernam / Ceasar Ciphers - Functions for
+            encrypting
+            and
+            decrypting data messages. Then send
+            them to a friend.</label></li>
+        <li><label for="p44"><input type="checkbox" id="p44" />Regex Query Tool - A tool that allows the user to enter a
+            text
+            string and then in a separate control
+            enter a regex pattern. It will run the regular expression against the source text and return any matches or
+            flag errors
+            in the regular expression.</label></li>
+      </ul>
+    </section>
+    <section class="checklist" id="networking">
+      <header>
+        <h3>Networking</h3>
+      </header>
+      <ul>
+        <li><label for="p45"><input type="checkbox" id="p45" />FTP Program - A file transfer program which can transfer
+            files
+            back and forth from a remote web sever.
+          </label></li>
+        <li><label for="p46"><input type="checkbox" id="p46" />Bandwidth Monitor - A small utility program that tracks
+            how
+            much
+            data you have uploaded and downloaded
+            from the net during the course of your current online session. See if you can find out what periods of the
+            day you use
+            more and less and generate a report or graph that shows it.</label></li>
+        <li><label for="p47"><input type="checkbox" id="p47" />Port Scanner - Enter an IP address and a port range where
+            the
+            program will then attempt to find open
+            ports on the given computer by connecting to each of them. On any successful connections mark the port as
+            open. debugger
+            eval </label></li>
+        <li><label for="p48"><input type="checkbox" id="p48" />Mail Checker (POP3 / IMAP) - The user enters various
+            account
+            information include web server and IP,
+            protocol type (POP3 or IMAP) and the application will check for email at a given interval.
+          </label></li>
+        <li><label for="p49"><input type="checkbox" id="p49" />Country from IP Lookup - Enter an IP address and find the
+            country
+            that IP is registered in.
+            <em>Optional: Find the Ip automatically.</em></label></li>
+        <li><label for="p50"><input type="checkbox" id="p50" />Whois Search Tool - Enter an IP or host address and have
+            it
+            look
+            it up through whois and return the
+            results to you.</label></li>
+        <li><label for="p51"><input type="checkbox" id="p51" />Site Checker with Time Scheduling - An application that
+            attempts
+            to connect to a website or server
+            every so many minutes or a given time and check if it is up. If it is down, it will notify you by email or
+            by posting a
+            notice on screen.</label></li>
+      </ul>
+    </section>
+    <section class="checklist" id="classes">
+      <header>
+        <h3>Classes</h3>
+      </header>
+      <ul>
+        <li><label for="p52"><input type="checkbox" id="p52" />Product Inventory Project - Create an application which
+            manages
+            an inventory of products. Create a
+            product class which has a price, id, and quantity on hand. Then create an <em>inventory</em> class which
+            keeps track of
+            various products and can sum up the inventory value.</label></li>
+        <li><label for="p53"><input type="checkbox" id="p53" />Airline / Hotel Reservation System - Create a reservation
+            system
+            which books airline seats or hotel
+            rooms. It charges various rates for particular sections of the plane or hotel. Example, first class is going
+            to cost
+            more than coach. Hotel rooms have penthouse suites which cost more. Keep track of when rooms will be
+            available and can
+            be scheduled.</label></li>
+        <li><label for="p54"><input type="checkbox" id="p54" />Company Manager - Create an hierarchy of classes -
+            abstract
+            class
+            Employee and subclasses
+            HourlyEmployee, SalariedEmployee, Manager and Executive. Every one's pay is calculated differently, research
+            a bit about
+            it.
+            After you've established an employee hierarchy, create a Company class that allows you to manage the
+            employees. You
+            should be able to hire, fire and raise employees.</label></li>
+        <li><label for="p55"><input type="checkbox" id="p55" />Bank Account Manager - Create a class called Account
+            which
+            will
+            be an abstract class for three other
+            classes called CheckingAccount, SavingsAccount and BusinessAccount. Manage credits and debits from these
+            accounts
+            through an ATM style program.</label></li>
+        <li><label for="p56"><input type="checkbox" id="p56" />Patient / Doctor Scheduler - Create a patient class and a
+            doctor
+            class. Have a doctor that can handle
+            multiple patients and setup a scheduling program where a doctor can only handle 16 patients during an 8 hr
+            work day.
+          </label></li>
+        <li><label for="p57"><input type="checkbox" id="p57" />Recipe Creator and Manager - Create a recipe class with
+            ingredients and a put them in a recipe manager
+            program that organizes them into categories like deserts, main courses or by ingredients like chicken, beef,
+            soups, pies
+            etc.</label></li>
+        <li><label for="p58"><input type="checkbox" id="p58" />Image Gallery - Create an image abstract class and then a
+            class
+            that inherits from it for each image
+            type. Put them in a program which displays them in a gallery style format for viewing.
+          </label></li>
+        <li><label for="p59"><input type="checkbox" id="p59" />Shape Area and Perimeter Classes - Create an abstract
+            class
+            called Shape and then inherit from it other
+            shapes like diamond, rectangle, circle, triangle etc. Then have each class override the area and perimeter
+            functionality
+            to handle each shape type.</label></li>
+        <li><label for="p60"><input type="checkbox" id="p60" />Flower Shop Ordering To Go - Create a flower shop
+            application
+            which deals in flower objects and use
+            those flower objects in a bouquet object which can then be sold. Keep track of the number of objects and
+            when you may
+            need to order more.</label></li>
+        <li><label for="p61"><input type="checkbox" id="p61" />Family Tree Creator - Create a class called Person which
+            will
+            have a name, when they were born and when
+            (and if) they died. Allow the user to create these Person classes and put them into a family tree structure.
+            Print out
+            the tree to the screen.</label></li>
+      </ul>
+    </section>
+    <section class="checklist" id="threading">
+      <header>
+        <h3>Threading</h3>
+      </header>
+      <ul>
+        <li><label for="p62"><input type="checkbox" id="p62" />Create A Progress Bar for Downloads - Create a progress
+            bar
+            for
+            applications that can keep track of a
+            download in progress. The progress bar will be on a separate thread and will communicate with the main
+            thread using
+            delegates.</label></li>
+        <li><label for="p63"><input type="checkbox" id="p63" />Bulk Thumbnail Creator - Picture processing can take a
+            bit
+            of
+            time for some transformations. Especially
+            if the image is large. Create an image program which can take hundreds of images and converts them to a
+            specified size
+            in the background thread while you do other things. For added complexity, have one thread handling
+            re-sizing, have
+            another bulk renaming of thumbnails etc.</label></li>
+      </ul>
+    </section>
+    <section class="checklist" id="web">
+      <header>
+        <h3>Web</h3>
+      </header>
+      <ul>
+        <li><label for="p64"><input type="checkbox" id="p64" />Page Scraper - Create an application which connects to
+            a site
+            and
+            pulls out all links, or images, and
+            saves them to a list. <em>Optional: Organize the indexed content and don’t allow duplicates. Have it put the
+              results
+              into an easily searchable index file.</em></label></li>
+        <li><label for="p65"><input type="checkbox" id="p65" />Online White Board - Create an application which allows
+            you
+            to
+            draw pictures, write notes and use
+            various colors to flesh out ideas for projects. <em>Optional: Add feature to invite friends to collaborate
+              on a white
+              board online.</em></label></li>
+        <li><label for="p66"><input type="checkbox" id="p66" />Get Atomic Time from Internet Clock - This program will
+            get
+            the
+            true atomic time from an atomic time
+            clock on the Internet. Use any one of the atomic clocks returned by a simple Google search.
+          </label></li>
+        <li><label for="p67"><input type="checkbox" id="p67" />Fetch Current Weather - Get the current weather for a
+            given
+            zip/postal code. <em>Optional: Try locating
+              the user automatically.</em></label></li>
+        <li><label for="p68"><input type="checkbox" id="p68" />Scheduled Auto Login and Action - Make an application
+            which
+            logs
+            into a given site on a schedule and
+            invokes a certain action and then logs out. This can be useful for checking web mail, posting regular
+            content, or
+            getting info for other applications and saving it to your computer.</label></li>
+        <li><label for="p69"><input type="checkbox" id="p69" />E-Card Generator - Make a site that allows people to
+            generate
+            their own little e-cards and send them to
+            other people. Do not use Flash. Use a picture library and perhaps insightful mottos or quotes.
+          </label></li>
+        <li><label for="p70"><input type="checkbox" id="p70" />Content Management System - Create a content management
+            system
+            (CMS) like Joomla, Drupal, PHP Nuke etc.
+            Start small. <em>Optional: Allow for the addition of modules/addons.</em></label></li>
+        <li><label for="p71"><input type="checkbox" id="p71" />Web Board (Forum) - Create a forum for you and your
+            buddies
+            to
+            post, administer and share thoughts and
+            ideas.</label></li>
+        <li><label for="p72"><input type="checkbox" id="p72" />CAPTCHA Maker - Ever see those images with letters a
+            numbers
+            when
+            you signup for a service and then
+            asks you to enter what you see? It keeps web bots from automatically signing up and spamming. Try creating
+            one yourself
+            for online forms.</label></li>
+      </ul>
+    </section>
+    <section class="checklist" id="files">
+      <header>
+        <h3>Files</h3>
+      </header>
+      <ul>
+        <li><label for="p73"><input type="checkbox" id="p73" />Quiz Maker - Make an application which takes various
+            questions
+            from a file, picked randomly, and puts
+            together a quiz for students. Each quiz can be different and then reads a key to grade the quizzes. debugger
+            eval
+          </label></li>
+        <li><label for="p74"><input type="checkbox" id="p74" />Sort Excel/CSV File Utility - Reads a file of records,
+            sorts
+            them, and then writes them back to the
+            file. Allow the user to choose various sort style and sorting based on a particular field.
+          </label></li>
+        <li><label for="p75"><input type="checkbox" id="p75" />Create Zip File Maker - The user enters various files
+            from
+            different directories and the program zips
+            them up into a zip file. <em>Optional: Apply actual compression to the files. Start with Huffman
+              Algorithm.</em>
+          </label></li>
+        <li><label for="p76"><input type="checkbox" id="p76" />PDF Generator - An application which can read in a text
+            file,
+            html file or some other file and
+            generates a PDF file out of it. Great for a web based service where the user uploads the file and the
+            program returns a
+            PDF of the file. <em>Optional: Deploy on GAE or Heroku if possible.</em></label></li>
+        <li><label for="p77"><input type="checkbox" id="p77" />Mp3 Tagger - Modify and add ID3v1 tags to MP3 files. See
+            if
+            you
+            can also add in the album art into the
+            MP3 file’s header as well as other ID3v2 tags.</label></li>
+        <li><label for="p78"><input type="checkbox" id="p78" />Code Snippet Manager - Another utility program that
+            allows
+            coders
+            to put in functions, classes or other
+            tidbits to save for use later. Organized by the type of snippet or language the coder can quickly look up
+            code.
+            <em>Optional: For extra practice try adding syntax highlighting based on the language.</em>
+          </label></li>
+      </ul>
+    </section>
+    <section class="checklist" id="database">
+      <header>
+        <h3>Database</h3>
+      </header>
+      <ul>
+        <li><label for="p79"><input type="checkbox" id="p79" />SQL Query Analyzer - A utility application which a user
+            can
+            enter
+            a query and have it run against a
+            local database and look for ways to make it more efficient.</label></li>
+        <li><label for="p80"><input type="checkbox" id="p80" />Remote SQL Tool - A utility that can execute queries on
+            remote
+            servers from your local computer across
+            the Internet. It should take in a remote host, user name and password, run the query and return the results.
+            debugger
+            eval </label></li>
+        <li><label for="p81"><input type="checkbox" id="p81" />Report Generator - Create a utility that generates a
+            report
+            based
+            on some tables in a database.
+            Generates a sales reports based on the order/order details tables or sums up the days current database
+            activity.
+          </label></li>
+        <li><label for="p82"><input type="checkbox" id="p82" />Event Scheduler and Calendar - Make an application which
+            allows
+            the user to enter a date and time of an
+            event, event notes and then schedule those events on a calendar. The user can then browse the calendar or
+            search the
+            calendar for specific events. <em>Optional: Allow the application to create re-occurrence events that
+              reoccur every day,
+              week, month, year etc.</em></label></li>
+        <li><label for="p83"><input type="checkbox" id="p83" />Budget Tracker - Write an application that keeps track of
+            a
+            household’s budget. The user can add
+            expenses, income, and recurring costs to find out how much they are saving or losing over a period of time.
+            <em>Optional: Allow the user to specify a date range and see the net flow of money in and out of the house
+              budget for
+              that time period.</em></label></li>
+        <li><label for="p84"><input type="checkbox" id="p84" />TV Show Tracker - Got a favorite show you don’t want to
+            miss?
+            Don’t have a PVR or want to be able to
+            find the show to then PVR it later? Make an application which can search various online TV Guide sites,
+            locate the
+            shows/times/channels and add them to a database application. The database/website then can send you email
+            reminders that
+            a show is about to start and which channel it will be on.</label></li>
+        <li><label for="p85"><input type="checkbox" id="p85" />Travel Planner System - Make a system that allows users
+            to
+            put
+            together their own little travel
+            itinerary and keep track of the airline / hotel arrangements, points of interest, budget and schedule.
+          </label></li>
+      </ul>
+    </section>
+    <section class="checklist" id="graphics-multimedia">
+      <header>
+        <h3>Graphics and Multimedia</h3>
+      </header>
+      <ul>
+        <li><label for="p86"><input type="checkbox" id="p86" />Slide Show - Make an application that shows various
+            pictures
+            in
+            a
+            slide show format. <em>Optional: Try
+              adding various effects like fade in/out, star wipe and window blinds transitions.</em>
+          </label></li>
+        <li><label for="p87"><input type="checkbox" id="p87" />Stream Video from Online - Try to create your own online
+            streaming video player.
+          </label></li>
+        <li><label for="p88"><input type="checkbox" id="p88" />Mp3 Player - A simple program for playing your favorite
+            music
+            files. Add features you think are missing
+            from your favorite music player.</label></li>
+        <li><label for="p89"><input type="checkbox" id="p89" />Watermarking Application - Have some pictures you want
+            copyright
+            protected? Add your own logo or text
+            lightly across the background so that no one can simply steal your graphics off your site. Make a program
+            that will add
+            this watermark to the picture. <em>Optional: Use threading to process multiple images simultaneously.</em>
+          </label></li>
+        <li><label for="p90"><input type="checkbox" id="p90" />Turtle Graphics - This is a common project where you
+            create
+            a
+            floor of 20 x 20 squares. Using various
+            commands you tell a turtle to draw a line on the floor. You have move forward, left or right, lift or drop
+            pen etc. Do a
+            search online for "Turtle Graphics" for more information. <em>Optional: Allow the program to read in the
+              list of
+              commands from a file.</em></label></li>
+        <li><label for="p91"><input type="checkbox" id="p91" />GIF Creator A program that puts together multiple images
+            (PNGs,
+            JPGs, TIFFs) to make a smooth GIF that
+            can be exported. <em>Optional: Make the program convert small video files to GIFs as well.</em> debugger
+            eval </label></li>
+      </ul>
+    </section>
+    <section class="checklist" id="security">
+      <header>
+        <h3>Security</h3>
+      </header>
+      <ul>
+        <li><label for="p92"><input type="checkbox" id="p92" />Caesar cipher - Implement a Caesar cipher, both encoding
+            and
+            decoding. The key is an integer from 1 to
+            25. This cipher rotates the letters of the alphabet (A to Z). The encoding replaces each letter with the 1st
+            to 25th
+            next letter in the alphabet (wrapping Z to A). So key 2 encrypts "HI" to "JK", but key 20 encrypts "HI" to
+            "BC". This
+            simple "monoalphabetic substitution cipher" provides almost no security, because an attacker who has the
+            encoded message
+            can either use frequency analysis to guess the key, or just try all 25 keys.
+        </li>
+      </ul>
+    </section>
+  </main>
+  <script src="src/app.js" type="text/javascript"></script>
+</body>
+
+</html>
