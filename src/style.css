@@ -1,7 +1,25 @@
+:root {
+  --fs-base: 20px;
+}
+
 *,
 *:before,
 *:after {
   box-sizing: border-box;
+}
+
+body {
+  font-size: var(--fs-base);
+  margin: 0;
+  padding: 1rem;
+}
+
+button {
+  background: #ffffff;
+  border: 1px solid #000222;
+  border-radius: 5px;
+  color: #000222;
+  padding: 0.25rem 1rem;
 }
 
 ul {

@@ -1,39 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Practical Projects to Learn Programming</title>
+    <link href="src/style.css" type="text/css" rel="stylesheet" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Practical Projects to Learn Programming</title>
-  <link href="src/style.css" type="text/css" rel="stylesheet" />
-</head>
-
-<body>
-  <header>
-    <h1>Karan Goel's Practical Projects to Learn Programming</h1>
-    <h2>
-      A checklist for <a href="https://github.com/karan/Projects#numbers" target="_blank">Karan Goel's practice projects
-        repo</a>.
-    </h2>
-  </header>
-  <main>
+  <body>
     <header>
-      <p>
-        Use this interactive checklist to track your progress on Karan's
-        suggested projects to learn a new programming language.
-      </p>
-      <p class="warning">
-        Note: This will only track history on a single device. Clearing your
-        cache will delete your progress. It's just localStorage.
-      </p>
+      <h1>Practical Projects to Learn Programming</h1>
+      <p id="description"></p>
+      <nav>
+        <button class="nav-button">Karan's List</button>
+        <button class="nav-button">Baum's List</button>
+      </nav>
     </header>
-    <section id="progress">
-      <p class="progress-tracker">Total: <span id="progress-total"></span></p>
-    </section>
-    <section class="checklist"></section>
-  </main>
-  <script src="src/app.js" type="text/javascript"></script>
-</body>
-
+    <main>
+      <p class="warning">
+        Note: This will only track history on a single device. Clearing your cache will delete your
+        progress. It's just localStorage.
+      </p>
+      <section id="progress">
+        <p class="progress-tracker">Total: <span id="progress-total"></span></p>
+      </section>
+      <section class="checklist"></section>
+    </main>
+    <script src="src/app.js" type="text/javascript"></script>
+  </body>
 </html>
