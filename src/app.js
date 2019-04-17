@@ -25,7 +25,6 @@ const storageAvailable = type => {
 
 const getData = () => {
   if (storageAvailable("localStorage") && localStorage.getItem("projects") !== null) {
-    console.log(JSON.parse(localStorage.getItem("projects")));
     return JSON.parse(localStorage.getItem("projects"));
   } else {
     return {
@@ -596,29 +595,13 @@ const data = getData();
 class Project {
   constructor(text, completed, category = "default") {
     this._id = Math.floor(Math.random() * 10000 + 1);
-    this._text = text;
-    this._category = category;
-    this._completed = completed;
+    this.text = text;
+    this.category = category;
+    this.completed = completed;
   }
 
   get id() {
     return this._id.toString();
-  }
-
-  get text() {
-    return this._text;
-  }
-
-  get category() {
-    return this._category;
-  }
-
-  get completed() {
-    return this._completed;
-  }
-
-  set completed(value) {
-    this._completed = value;
   }
 
   createDomItem() {
@@ -635,7 +618,12 @@ class Project {
 
 class ProjectList {
   constructor(listName, projects) {
+    this._listName = listName;
     this._projects = projects;
+  }
+
+  get listName() {
+    return this._listName;
   }
 
   get projects() {
@@ -729,7 +717,7 @@ class ProjectList {
 class App {
   constructor(currentList, projects) {
     this.currentList = currentList;
-    this.projects = projects;
+    this.projects = { [currentList]: projects };
     this.totalCompleted = 0;
   }
 
@@ -754,16 +742,26 @@ class App {
       )}/${this.projects[this.currentList].getProjectCountByCategory(category)}`;
     });
   }
+
+  saveToLocalStorage() {
+    if (storageAvailable("localStorage")) {
+      const projects = this.projects[this.currentList]._projects.map(project => {
+        return { text: project.text, category: project.category, completed: project.completed };
+      });
+      localStorage.setItem("projects", JSON.stringify({ [this.currentList]: projects }));
+    }
+  }
 }
 
-const projects = data.karan.map(item => new Project(item.text, false, item.category));
+const projects = getData().karan.map(item => new Project(item.text, item.completed, item.category));
 
 const projectList = new ProjectList("karan", projects);
 projectList.appendAllProjects(document.querySelector(".checklist"));
 
-const app1 = new App("karan", { karan: projectList });
+const app1 = new App(projectList.listName, projectList);
 
 app1.updateTotalCompleted();
+app1.updateCategoryCompleted();
 const ulItems = document.querySelector(".checklist").addEventListener("click", e => {
   const target = e.target;
   if (target.tagName === "INPUT") {
@@ -771,6 +769,6 @@ const ulItems = document.querySelector(".checklist").addEventListener("click", e
     project.toggleCompleted();
     app1.updateTotalCompleted();
     app1.updateCategoryCompleted();
-    localStorage.setItem("projects", JSON.stringify(app1.projects));
+    app1.saveToLocalStorage();
   }
 });

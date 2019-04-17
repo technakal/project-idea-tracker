@@ -1,5 +1,18 @@
 :root {
   --fs-base: 20px;
+  --ff-main: 'Lucida Sans',
+    'Lucida Sans Regular',
+    'Lucida Grande',
+    'Lucida Sans Unicode',
+    Geneva,
+    Verdana,
+    sans-serif;
+  --ff-header: Cambria,
+    Cochin,
+    Georgia,
+    Times,
+    'Times New Roman',
+    serif;
 }
 
 *,
@@ -9,9 +22,16 @@
 }
 
 body {
+  font-family: var(--ff-main);
   font-size: var(--fs-base);
   margin: 0;
   padding: 1rem;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--ff-header);
 }
 
 button {
