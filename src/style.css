@@ -1,5 +1,5 @@
 :root {
-  --fs-base: 20px;
+  --fs-base: 16px;
   --ff-main: 'Lucida Sans',
     'Lucida Sans Regular',
     'Lucida Grande',
@@ -44,4 +44,41 @@ button {
 
 ul {
   list-style: none;
+}
+
+.checklist-header {
+  align-items: center;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
+
+.checklist-title {
+  cursor: pointer;
+}
+
+.checklist-total {
+  font-size: 0.85rem;
+  font-style: italic;
+  margin-left: 2rem;
+}
+
+/* FUNCTIONAL CLASSES */
+
+.collapsed {
+  display: none;
+  height: 0px;
+  opacity: 0;
+  transition: height 0.4s ease-out,
+    opacity 0.4s ease-out,
+    display 1s;
+}
+
+.open {
+  display: block;
+  height: 100%;
+  opacity: 1;
+  transition: height 0.4s ease-out,
+    opacity 0.4s ease-out,
+    display 1s;
 }
