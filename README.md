@@ -102,7 +102,7 @@ saveDataToLocalStorage(data) {
   // saves the data to the localStorage, if available
 }
 
-getData() {
+retrieveDataSource() {
   // retrieves state information from localStorage or the data.json file, assuming I can get that to work.
 }
 
@@ -126,26 +126,28 @@ updateClassNames(elem, newClass) {
 
 ```js
 {
-  currentList: 'karan',
-  projectLists: [
+  "currentList": "listOne",
+  "projectLists": [
     {
-      listName: 'karan',
-      projects: [
+      "listName": "listOne",
+      "source": "urlOne"
+      "projects": [
         {
-          text: 'Find PI to the Nth Digit - Enter a number and have the program generate PI up to that many decimal places. Keep a limit to how far the program will go.',
-          category: 'numbers',
-          completed: false,
+          "text": "Make a party game that allows users to take turns playing mini-games",
+          "category": "interactivity",
+          "completed": false,
         },
         ...
       ]
     },
     {
-      listName: 'baum'
-      projects: [
+      "listName": "listTwo",
+      "source": "urlTwo",
+      "projects": [
         {
-          text: 'Write a programme which finds the factorial of a number entered by the user. (check for all conditions).',
-          category: 'beginner',
-          completed: false,
+          "text": "Write a workout app that stores user workouts to a database.",
+          "category": "database",
+          "completed": false,
         },
         ...
       ]
