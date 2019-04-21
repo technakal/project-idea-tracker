@@ -48,13 +48,11 @@ ul {
 
 .checklist-header {
   align-items: center;
+  cursor: pointer;
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
-}
-
-.checklist-title {
-  cursor: pointer;
+  width: 100%;
 }
 
 .checklist-total {
@@ -81,4 +79,8 @@ ul {
   transition: height 0.4s ease-out,
     opacity 0.4s ease-out,
     display 1s;
+}
+
+.hidden {
+  display: none;
 }

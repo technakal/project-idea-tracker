@@ -1,27 +1,88 @@
+const baseUrl = "https://technakal.github.io/project-ideas-api/data.json";
+
+/**
+ * Tests whether a particular type of storage is available on the client machine.
+ * @param {string} type - The type of storage to test.
+ */
+const storageAvailable = type => {
+  try {
+    var storage = window[type],
+      x = '__storage_test__';
+    storage.setItem(x, x);
+    storage.removeItem(x);
+    return true;
+  } catch (e) {
+    return (
+      e instanceof DOMException &&
+      // everything except Firefox
+      (e.code === 22 ||
+        // Firefox
+        e.code === 1014 ||
+        // test name field too, because code might not be present
+        // everything except Firefox
+        e.name === 'QuotaExceededError' ||
+        // Firefox
+        e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+      // acknowledge QuotaExceededError only if there's something already stored
+      storage.length !== 0
+    );
+  }
+};
+
+/**
+ * Class constructor for the Project item
+ * Stores details for a single project.
+ * @param {string} text - The textual description of the project.
+ * @param {string} category - The sub-category to which the project belongs. These vary by project list.
+ * @param {boolean} completed - Tracks whether a project is completed.
+ */
 class Project {
   constructor(text, category, completed) {
     this.id = Math.floor(Math.random() * 1000 + 1);
     this._text = text;
-    this._category = category;
+    this._category = category.toLowerCase();
     this._completed = completed;
   }
 
+  /**
+   * Getter method for the text property.
+   */
   get text() {
     return this._text;
   }
 
+  /**
+   * Getter method for the category property.
+   */
   get category() {
     return this._category;
   }
 
+  /**
+   * Getter method for the completed property.
+   */
   get completed() {
     return this._completed;
   }
 
-  toggleCompleted() {
-    this._completed = !this._completed;
+  /**
+   * Setter method for the completed property.
+   * @param {boolean} value - The status of the project.
+   * @returns {boolean}
+   */
+  set completed(value) {
+    this._completed = value;
+    return this.completed;
   }
 
+  /**
+   * Creates the DOM representation of the project item.
+   * @returns Project DOM element.
+   *   <li>
+   *     <input type="checkbox" id="1234" checked/>
+   *     <label for="1234">Build a spaceship.</label>
+   *   </li>
+   */
   createProjectElem() {
     return `<li><input type="checkbox" id="${this.id}" ${
       this.completed ? "checked" : ""
@@ -29,41 +90,100 @@ class Project {
   }
 }
 
+/**
+ * Class constructor for the ProjectList item
+ * Creates an object to represent a collection of related projects.
+ * @param {string} listName - The name of the project list.
+ * @param {array} projects - The projects making up the project list.
+ * @param {string} source - The attribution source for the project list.
+ * @param {number} totalCompleted - How many projects in the list are completed.
+ */
 class ProjectList {
-  constructor(listName, projects, source) {
+  constructor(listName, projects, source, totalCompleted) {
     this._listName = listName;
     this._projects = projects;
     this._source = source;
+    this._totalCompleted = totalCompleted;
   }
 
+  /**
+   * Getter method for the listName property.
+   * @returns {string}
+   */
   get listName() {
     return this._listName;
   }
 
+  /**
+   * Getter method for the listName property.
+   * @returns {string}
+   */
   get projects() {
     return this._projects;
   }
 
+  /**
+   * Getter method for the listName property.
+   * @returns {string}
+   */
   get source() {
     return this._source;
   }
 
-  getCategories() {
+  /**
+   * Getter method for the totalCompleted property.
+   * @returns {number}
+   */
+  get totalCompleted() {
+    return this._totalCompleted;
+  }
+
+  /**
+   * Returns the total number of projects in the list.
+   * @returns {number}
+   */
+  get totalProjects() {
+    return this.projects.length;
+  }
+
+  /**
+   * Getter method for the categories.
+   * Returns the filtered list of category names for projects in the dataset.
+   * @returns {array}
+   */
+  get categories() {
     const categories = this.projects.map(project => project.category);
     return categories.filter((item, index) => categories.indexOf(item) >= index);
   }
 
+  /**
+   * Setter method for the totalCompleted value.
+   * @param {array} list - The list of projects to check for completed status.
+   * @returns {number}
+   */
+  set totalCompleted(list) {
+    this._totalCompleted = this.calculateTotalCompleted(list);
+    return this.totalCompleted;
+  }
+
+  /**
+   * Retrieves the projects related to a single category.
+   * Returns the filtered list of category names for projects in the dataset.
+   * @param {string} category - The name of the category.
+   * @returns {array}
+   */
   getProjectsByCategory(category) {
     return this.projects
       .map(project => (project.category === category ? project : null))
       .filter(project => project !== null);
   }
 
-  getTotalProjects(list) {
-    return list.length;
-  }
-
-  getTotalCompleted(list) {
+  /**
+   * Calculates how many projects in the list are completed.
+   * @param {array} list - The list of projects to check for completed status.
+   * @returns {number}
+   */
+  calculateTotalCompleted(list) {
     return list
       .map(project => {
         if (project.completed) {
@@ -75,72 +195,126 @@ class ProjectList {
       .reduce((a, b) => a + b);
   }
 
-  createCategoryElem(category) {
-    const categoryArray = category.split(" ");
-    const categoryId = categoryArray.join("-");
-    const categoryName = categoryArray
-      .map(word => word[0].toUpperCase() + word.slice(1, word.length))
-      .join(" ");
-    return `<div class="checklist"><div class="checklist-header"><h3 class="checklist-title">${categoryName}</h3><span class="checklist-total">${this.getTotalCompleted(
-      this.projects
-    )}/${this.getTotalProjects(
-      this.getProjectsByCategory(category)
-    )}</span></div><ul class="collapsed" id="${categoryId}"></ul></div>`;
+  /**
+   * Checks how many projects are in the list.
+   * @param {array} list - The list of projects.
+   * @returns {number}
+   */
+  calculateTotalProjects(list) {
+    return list.length;
   }
 
+  /**
+   * Formats the name of the category for DOM representation.
+   * @param {string} category - The name of the category in the datastore.
+   * @returns {string}
+   */
+  formatCategoryName(category) {
+    const name = category.split(" ").map(word => {
+      if (word !== "and" && word !== "or" && word !== "the") {
+        return word[0].toUpperCase() + word.slice(1, word.length);
+      }
+      return word;
+    });
+    return name.join(" ");
+  }
+
+  /**
+   * Formats the name of the category so that it can be used as a DOM id.
+   * @param {string} category - The name of the category in the datastore.
+   * @returns {string}
+   */
+  formatCategoryId(category) {
+    return category.split(" ").join("-");
+  }
+
+  /**
+   * Creates the DOM representation of the category section.
+   * @returns {string} Category DOM element.
+   *   <div class="checklist">
+   *     <div class="checklist-header">
+   *       <h3 class="checlist-title">Numbers</h3>
+   *       <span class="checklist-total">0/22</span>
+   *     </div>
+   *     <ul class="collapsed" id="numbers"></ul>
+   *   </div>
+   */
+  createCategoryElem(category) {
+    return `<div class="checklist" id="${this.formatCategoryId(category)}"><div class="checklist-header"><h3 class="checklist-title">${this.formatCategoryName(
+      category
+    )}</h3></div><ul class="open"></ul></div>`;
+  }
+
+  /**
+   * Creates the full DOM representation of all category sections.
+   * @param {array} categories - The list of categories in the project list.
+   * @returns {string} All Category DOM elements
+   */
   createCategoryView(categories) {
     return categories.map(category => this.createCategoryElem(category)).join("");
   }
 
-  createTotalView(list) {
-    // returns the DOM representation of the total
-    // can be used to return the total completed
-    // can be used to return the total completed for a single category
+  /**
+   * Creates the DOM representation for the project completion counter.
+   * @param {number} current - The current number of projects that are completed.
+   * @param {number} max - The number of projects in the list.
+   * @returns {string} Total DOM element
+   *   <span class="checklist-total">0/22</span>
+   */
+  createTotalView(current, max) {
+    return `<span class="checklist-total">${current}/${max}</span>`;
   }
 }
 
+/**
+ * Class constructor for the App item
+ * Stores data for the entire application
+ * @param {string} currentList - The name of the current list displayed in the app.
+ * @param {array} projectLists - The projects available to the application.
+ */
 class App {
-  constructor() {
-    this._currentList = "karan";
-    this._projectLists = [];
-    this._totalCompleted = 0;
-    this._baseUrl = "https://technakal.github.io/project-ideas-api/data.json";
+  constructor(currentList, projectLists) {
+    this._currentList = currentList;
+    this._projectLists = projectLists;
   }
 
+  /** 
+   * Getter method for the currentList property.
+   */
   get currentList() {
     return this._currentList;
   }
 
+  /** 
+   * Setter method to update the currentList property.
+   * @returns {string}
+   */
   set currentList(listName) {
     this._currentList = listName;
+    return this.currentList;
   }
 
+  /**
+   * Getter method for the projectLists property.
+   */
   get projectLists() {
     return this._projectLists;
   }
 
+  /** 
+   * Setter method for the projectLists property.
+   * @returns {array}
+   */
   set projectLists(projectLists) {
     this._projectLists = projectLists;
+    return this.projectLists;
   }
 
-  get totalCompleted() {
-    return this._totalCompleted;
-  }
-
-  set totalCompleted(newTotal) {
-    this._totalCompleted = newTotal;
-  }
-
-  async retrieveDataSource(url) {
-    try {
-      let response = await fetch(this._baseUrl);
-      let data = await response.json();
-      return data;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
+  /**
+   * Retrieves the index of the projectList within projectLists which matches the listName supplied.
+   * @param {string} listName - The name of the list to retreive.
+   * @returns {number}
+   */
   findProjectIndex(listName) {
     const projectList = this.projectLists.find(
       projectList => projectList.listName.toLowerCase() === listName.toLowerCase()
@@ -148,19 +322,45 @@ class App {
     return this.projectLists.indexOf(projectList);
   }
 
-  formatForSave(currentList, projects) {
-    // formats the currentList and projects for storage as JSON.
-    // converts from app data to JSON data
+  /**
+   * Formats the supplied data for storage in localStorage.
+   * Makes the data retrievable by the app the next time around.
+   * @param {array} projectLists - The projectLists array to format.
+   * @returns {array}
+   */
+  formatProjectsForSave(projectLists) {
+    const data = projectLists.map(projectList => {
+      return {
+        listName: projectList.listName,
+        source: projectList.source,
+        totalCompleted: projectList.calculateTotalCompleted(projectList.projects),
+        projects: projectList.projects.map(project => {
+          return {
+            text: project.text,
+            category: project.category,
+            completed: project.completed
+          }
+        })
+      }
+    })
+    return JSON.stringify(data);
   }
 
-  isStorageAvailable(storageType) {
-    // returns boolean for whether storageType is available for use
+  /**
+   * Stores the data in localStorage.
+   * @returns {boolean}
+   */
+  saveDataToLocalStorage() {
+    localStorage.setItem('currentList', JSON.stringify(this.currentList));
+    localStorage.setItem('projectLists', this.formatProjectsForSave(this.projectLists));
+    return true;
   }
 
-  saveDataToLocalStorage(data) {
-    // retrieves state information from localStorage or the data.json file, assuming I can get that to work.
-  }
-
+  /**
+   * Toggles the CSS class that opens and closes a category section.
+   * @param {node} elem - The DOM element to manipulate
+   * @returns {node}
+   */
   toggleCollapsed(elem) {
     if (elem.className === "collapsed") {
       return this.updateClassName(elem, "open");
@@ -168,65 +368,146 @@ class App {
     return this.updateClassName(elem, "collapsed");
   }
 
-  updateDomLocation(html, location) {
-    document.querySelector(location).innerHTML = html;
+  /**
+   * Updates the DOM with the supplied html.
+   * @param {string} command - The controlling command for how to handle the DOM.
+   * @param {string} html - The template literal to insert into to the DOM.
+   * @param {*} location - The DOM location to update.
+   * @returns {function}
+   */
+  updateDomLocation(command, html, location) {
+    if (command === 'override') {
+      return document.querySelector(location).innerHTML = html;
+    } else {
+      return document.querySelector(location).innerHTML += html;
+    }
   }
 
+  /**
+   * Updates the elem's class to the newClass.
+   * @param {node} elem - Dom element to update
+   * @param {string} newClass - The class name to set.
+   * @returns {function}
+   */
   updateClassName(elem, newClass) {
     return (elem.className = newClass);
   }
 }
 
+/**
+ * Initializer object.
+ * Retrieves data, sets up the application, and controls interactivity.
+ */
 const initializer = {
+  /**
+   * Creates a new instance of a project from the JSON data.
+   * @param {object} item - The project object.
+   * @returns {object}
+   */
   createProject(item) {
     return new Project(item.text, item.category, item.completed);
   },
 
+  /**
+   * Creates a new instance of a project list the JSON data.
+   * @param {array} list - The project list array.
+   * @returns {object}
+   */
   createProjectList(list) {
     const projects = list.projects.map(project => this.createProject(project));
-    return new ProjectList(list.listName, projects, list.source);
+    return new ProjectList(list.listName, projects, list.source, list.totalCompleted);
   },
 
-  createApp() {
-    const app = new App();
-    app.retrieveDataSource(app._baseUrl).then(data => {
-      const projectLists = data.projectLists.map(list => this.createProjectList(list));
-      app.projectLists = projectLists;
-      app.currentList = data.currentList;
-      const currentListContent = app.projectLists[app.findProjectIndex(app.currentList)];
+  /**
+   * Retrieves data from the API.
+   * @returns {object}
+   */
+  async retrieveDataSource() {
+    const baseUrl = "https://technakal.github.io/project-ideas-api/data.json";
+    try {
+      let response = await fetch(baseUrl);
+      let data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  },
 
-      app.totalCompleted = currentListContent.getTotalCompleted(currentListContent.projects);
-      app.updateDomLocation(
-        `${app.totalCompleted}/${currentListContent.getTotalProjects(currentListContent.projects)}`,
-        "#totalCompleted"
-      );
-      const categories = currentListContent.getCategories();
-      const categoryHtml = currentListContent.createCategoryView(categories);
-      app.updateDomLocation(categoryHtml, "#checklists");
-      categories.map(category => {
-        const projectHtml = currentListContent.projects
-          .map(project => {
-            return project.category === category ? project.createProjectElem() : null;
-          })
-          .filter(project => project !== null)
-          .join("");
-        app.updateDomLocation(projectHtml, `#${category.split(" ").join("-")}`);
-      });
-      app.updateDomLocation(
-        `<a href="${currentListContent.source}">${app.currentList[0].toUpperCase() +
-          app.currentList.slice(1, app.currentList.length)}</a>`,
-        "#source"
-      );
-      const checklists = document.querySelectorAll(".checklist");
-      checklists.forEach(item =>
-        item.addEventListener("click", e => {
-          if (e.target.tagName === "H3") {
-            app.toggleCollapsed(e.target.parentNode.parentNode.querySelector("ul"));
-          }
+  /**
+   * Instantiates the app and configures preliminary settings.
+   * @returns {object}
+   */
+  async createApp() {
+    let data;
+    if (!storageAvailable('localStorage') || localStorage.getItem('currentList') === null) {
+      data = await this.retrieveDataSource();
+      console.log("Data source is API");
+    } else {
+      data = await {
+        currentList: JSON.parse(localStorage.getItem('currentList')),
+        projectLists: JSON.parse(localStorage.getItem('projectLists'))
+      }
+      console.log("Data source is localStorage");
+    }
+    const projects = data.projectLists.map(list => this.createProjectList(list));
+    const app = new App(data.currentList, projects);
+    if (storageAvailable('localStorage')) {
+      app.saveDataToLocalStorage();
+    }
+    const currentProjects = app.projectLists[app.findProjectIndex(app.currentList)];
+    app.updateDomLocation(
+      'override',
+      currentProjects.createTotalView(
+        currentProjects.totalCompleted,
+        currentProjects.totalProjects
+      ),
+      "#totalCompleted"
+    );
+    const categories = currentProjects.categories;
+    const categoryHtml = currentProjects.createCategoryView(categories);
+    app.updateDomLocation('override', categoryHtml, "#checklists");
+    categories.map(category => {
+      const projectHtml = currentProjects.projects
+        .map(project => {
+          return project.category === category ? project.createProjectElem() : null;
         })
-      );
-      return app;
+        .filter(project => project !== null)
+        .join("");
+      app.updateDomLocation('override', projectHtml, `#${category.split(" ").join("-")} ul`);
     });
+    app.updateDomLocation('override',
+      `<a href="${currentProjects.source}">${app.currentList[0].toUpperCase() +
+        app.currentList.slice(1, app.currentList.length)}</a>`,
+      "#source"
+    );
+    // const checklists = document.querySelectorAll(".checklist");
+    // checklists.forEach(item =>
+    //   item.addEventListener("click", e => {
+    //     let target = e.target;
+    //     while (target.className !== "checklist") {
+    //       target = target.parentNode;
+    //     }
+    //     app.toggleCollapsed(target.querySelector("ul"));
+    //   })
+    // );
+    const uls = document.querySelector('ul');
+    uls.addEventListener('click', e => {
+      if (e.target.tagName === 'INPUT') {
+        const project = currentProjects.projects.find(project => project.id == e.target.id);
+        project.completed = e.target.checked;
+        currentProjects.totalCompleted = currentProjects.projects;
+        app.updateDomLocation(
+          'override',
+          currentProjects.createTotalView(
+            currentProjects.totalCompleted,
+            currentProjects.totalProjects
+          ),
+          "#totalCompleted"
+        );
+        app.saveDataToLocalStorage();
+      }
+    })
+    return app;
   }
 };
 
