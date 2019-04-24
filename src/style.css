@@ -1,18 +1,8 @@
 :root {
   --fs-base: 16px;
-  --ff-main: 'Lucida Sans',
-    'Lucida Sans Regular',
-    'Lucida Grande',
-    'Lucida Sans Unicode',
-    Geneva,
-    Verdana,
-    sans-serif;
-  --ff-header: Cambria,
-    Cochin,
-    Georgia,
-    Times,
-    'Times New Roman',
-    serif;
+  --ff-main: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  --ff-header: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 *,
@@ -44,6 +34,25 @@ button {
 
 ul {
   list-style: none;
+  padding-left: 15px;
+}
+
+li {
+  align-items: flex-start;
+  display: grid;
+  grid-template-columns: 30px auto;
+  grid-gap: 15px;
+  padding-bottom: 7px;
+}
+
+input {
+  height: 20px;
+  width: 20px;
+  margin-left: 5px;
+}
+
+label {
+  line-height: calc(1.5 * 1rem);
 }
 
 .checklist-header {
@@ -67,18 +76,14 @@ ul {
   display: none;
   height: 0px;
   opacity: 0;
-  transition: height 0.4s ease-out,
-    opacity 0.4s ease-out,
-    display 1s;
+  transition: height 0.4s ease-out, opacity 0.4s ease-out, display 1s;
 }
 
 .open {
   display: block;
   height: 100%;
   opacity: 1;
-  transition: height 0.4s ease-out,
-    opacity 0.4s ease-out,
-    display 1s;
+  transition: height 0.4s ease-out, opacity 0.4s ease-out, display 1s;
 }
 
 .hidden {

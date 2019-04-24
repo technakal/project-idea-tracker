@@ -368,6 +368,107 @@ class App {
     return this.updateClassName(elem, "collapsed");
   }
 
+  getCurrentProjects() {
+    return this.projectLists[this.findProjectIndex(this.currentList)];
+  }
+
+  switchProjectList(listName) {
+    this.currentList = listName;
+    this.createAppInDom();
+  }
+
+  createAppInDom() {
+    const currentProjects = this.getCurrentProjects()
+    this.setSource(currentProjects);
+    this.setTotalView(currentProjects);
+    this.setCategoryView(currentProjects);
+    this.setProjectsView(currentProjects);
+    this.setProjectSelector();
+    this.setInteractivity(currentProjects);
+  }
+
+  setSource(currentProjects) {
+    return this.updateDomLocation('override',
+      `<a href="${currentProjects.source}">${this.currentList[0].toUpperCase() +
+    this.currentList.slice(1, this.currentList.length)}</a>`,
+      "#source"
+    );
+  }
+
+  setTotalView(currentProjects) {
+    return this.updateDomLocation(
+      'override',
+      currentProjects.createTotalView(
+        currentProjects.totalCompleted,
+        currentProjects.totalProjects
+      ),
+      "#totalCompleted"
+    );
+  }
+
+  setCategoryView(currentProjects) {
+    const categories = currentProjects.categories;
+    const categoryHtml = currentProjects.createCategoryView(categories);
+    return this.updateDomLocation('override', categoryHtml, "#checklists");
+  }
+
+  setProjectsView(currentProjects) {
+    const categories = currentProjects.categories;
+    return categories.map(category => {
+      const projectHtml = currentProjects.projects
+        .map(project => {
+          return project.category === category ? project.createProjectElem() : null;
+        })
+        .filter(project => project !== null)
+        .join("");
+      this.updateDomLocation('override', projectHtml, `#${category.split(" ").join("-")} ul`);
+    });
+  }
+
+  setProjectSelector() {
+    const lists = this.projectLists.map(list => list.listName);
+    const html = lists.map(list => `<button data-name="${list}">${list[0].toUpperCase() + list.slice(1,list.length)}</button>`).join('');
+    this.updateDomLocation('override', html, `#nav__main`);
+  }
+
+  setInteractivity(currentProjects) {
+    this.handleProjectToggle(currentProjects);
+    // this.handleHeaderClick();
+    this.handleButtonClick();
+  }
+
+  handleProjectToggle(currentProjects) {
+    const uls = document.querySelector('ul');
+    return uls.addEventListener('click', e => {
+      if (e.target.tagName === 'INPUT') {
+        const project = currentProjects.projects.find(project => project.id == e.target.id);
+        project.completed = e.target.checked;
+        currentProjects.totalCompleted = currentProjects.projects;
+        this.setTotalView(currentProjects);
+        this.saveDataToLocalStorage();
+      }
+    })
+  }
+
+  // handleHeaderClick() {
+  //   const checklists = document.querySelectorAll('.checklist');
+  //   checklists.forEach(list => list.addEventListener('click', e => {
+  //     let target = e.target;
+  //     while (target.className !== 'checklist-header') {
+  //       target = e.target.parentNode;
+  //     }
+  //     this.toggleCollapsed(target.parentNode.querySelector('ul'));
+  //   }));
+  // }
+
+  handleButtonClick() {
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => button.addEventListener('click', e => {
+      const target = e.target.dataset.name;
+      this.switchProjectList(target);
+    }));
+  }
+
   /**
    * Updates the DOM with the supplied html.
    * @param {string} command - The controlling command for how to handle the DOM.
@@ -379,7 +480,9 @@ class App {
     if (command === 'override') {
       return document.querySelector(location).innerHTML = html;
     } else {
-      return document.querySelector(location).innerHTML += html;
+      let currentHtml = document.querySelector(location).innerHTML;
+      currentHtml += html;
+      return document.querySelector(location).innerHTML = currentHtml;
     }
   }
 
@@ -449,64 +552,11 @@ const initializer = {
       }
       console.log("Data source is localStorage");
     }
-    const projects = data.projectLists.map(list => this.createProjectList(list));
-    const app = new App(data.currentList, projects);
+    const app = new App(data.currentList, data.projectLists.map(list => this.createProjectList(list)));
     if (storageAvailable('localStorage')) {
       app.saveDataToLocalStorage();
     }
-    const currentProjects = app.projectLists[app.findProjectIndex(app.currentList)];
-    app.updateDomLocation(
-      'override',
-      currentProjects.createTotalView(
-        currentProjects.totalCompleted,
-        currentProjects.totalProjects
-      ),
-      "#totalCompleted"
-    );
-    const categories = currentProjects.categories;
-    const categoryHtml = currentProjects.createCategoryView(categories);
-    app.updateDomLocation('override', categoryHtml, "#checklists");
-    categories.map(category => {
-      const projectHtml = currentProjects.projects
-        .map(project => {
-          return project.category === category ? project.createProjectElem() : null;
-        })
-        .filter(project => project !== null)
-        .join("");
-      app.updateDomLocation('override', projectHtml, `#${category.split(" ").join("-")} ul`);
-    });
-    app.updateDomLocation('override',
-      `<a href="${currentProjects.source}">${app.currentList[0].toUpperCase() +
-        app.currentList.slice(1, app.currentList.length)}</a>`,
-      "#source"
-    );
-    // const checklists = document.querySelectorAll(".checklist");
-    // checklists.forEach(item =>
-    //   item.addEventListener("click", e => {
-    //     let target = e.target;
-    //     while (target.className !== "checklist") {
-    //       target = target.parentNode;
-    //     }
-    //     app.toggleCollapsed(target.querySelector("ul"));
-    //   })
-    // );
-    const uls = document.querySelector('ul');
-    uls.addEventListener('click', e => {
-      if (e.target.tagName === 'INPUT') {
-        const project = currentProjects.projects.find(project => project.id == e.target.id);
-        project.completed = e.target.checked;
-        currentProjects.totalCompleted = currentProjects.projects;
-        app.updateDomLocation(
-          'override',
-          currentProjects.createTotalView(
-            currentProjects.totalCompleted,
-            currentProjects.totalProjects
-          ),
-          "#totalCompleted"
-        );
-        app.saveDataToLocalStorage();
-      }
-    })
+    app.createAppInDom();
     return app;
   }
 };
