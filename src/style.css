@@ -29,6 +29,7 @@ button {
   border: 1px solid #000222;
   border-radius: 5px;
   color: #000222;
+  margin: 0.25rem 1rem;
   padding: 0.25rem 1rem;
 }
 
@@ -65,9 +66,13 @@ label {
 }
 
 .checklist-total {
+  background: #c52233;
+  border-radius: 7px;
+  color: white;
   font-size: 0.85rem;
   font-style: italic;
   margin-left: 2rem;
+  padding: 0.25rem 0.5rem;
 }
 
 /* FUNCTIONAL CLASSES */
@@ -88,4 +93,12 @@ label {
 
 .hidden {
   display: none;
+}
+
+.done {
+  background: #62c370;
+}
+
+.active {
+  background: #8ae1fc;
 }

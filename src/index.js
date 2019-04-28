@@ -240,9 +240,11 @@ class ProjectList {
    *   </div>
    */
   createCategoryElem(category) {
+    const categoryTotal = this.calculateTotalProjects(this.getProjectsByCategory(category));
+    const categoryTotalCompleted = this.calculateTotalCompleted(this.getProjectsByCategory(category));
     return `<div class="checklist" id="${this.formatCategoryId(category)}"><div class="checklist-header"><h3 class="checklist-title">${this.formatCategoryName(
       category
-    )}</h3></div><ul class="open"></ul></div>`;
+    )}</h3>${this.createTotalView(categoryTotalCompleted, categoryTotal)}</div><ul class="collapsed"></ul></div>`;
   }
 
   /**
@@ -262,7 +264,13 @@ class ProjectList {
    *   <span class="checklist-total">0/22</span>
    */
   createTotalView(current, max) {
-    return `<span class="checklist-total">${current}/${max}</span>`;
+    return `<span class="checklist-total ${current == max ? "done" : ""}">${current}/${max}</span>`;
+  }
+
+  updateTotalView(category) {
+    const max = this.calculateTotalProjects(this.getProjectsByCategory(category));
+    const current = this.calculateTotalCompleted(this.getProjectsByCategory(category));
+    return `${current}/${max}`;
   }
 }
 
@@ -432,34 +440,48 @@ class App {
   }
 
   setInteractivity(currentProjects) {
-    this.handleProjectToggle(currentProjects);
-    // this.handleHeaderClick();
+    this.handleCompletedToggle(currentProjects);
+    this.handleHeaderClick();
     this.handleButtonClick();
   }
 
-  handleProjectToggle(currentProjects) {
-    const uls = document.querySelector('ul');
-    return uls.addEventListener('click', e => {
+  handleCompletedToggle(currentProjects) {
+    const uls = document.querySelectorAll('ul');
+    return uls.forEach(ul => ul.addEventListener('click', e => {
       if (e.target.tagName === 'INPUT') {
         const project = currentProjects.projects.find(project => project.id == e.target.id);
         project.completed = e.target.checked;
         currentProjects.totalCompleted = currentProjects.projects;
+        const categoryTotalContainer = ul.parentElement.firstElementChild.querySelector('.checklist-total');
+        categoryTotalContainer.innerHTML = currentProjects.updateTotalView(project.category)
+        const current = currentProjects.calculateTotalCompleted(currentProjects.getProjectsByCategory(project.category));
+        const max = currentProjects.calculateTotalProjects(currentProjects.getProjectsByCategory(project.category));
+        if (current === max) {
+          categoryTotalContainer.className = "checklist-total done";
+        } else {
+          categoryTotalContainer.className = "checklist-total";
+        }
+        if (currentProjects.totalCompleted === currentProjects.totalCompleted) {
+          document.querySelector("#totalCompleted span").className = "checklist-total done";
+        } else {
+          document.querySelector("#totalCompleted span").className = "checklist-total";
+        }
         this.setTotalView(currentProjects);
         this.saveDataToLocalStorage();
       }
-    })
+    }));
   }
 
-  // handleHeaderClick() {
-  //   const checklists = document.querySelectorAll('.checklist');
-  //   checklists.forEach(list => list.addEventListener('click', e => {
-  //     let target = e.target;
-  //     while (target.className !== 'checklist-header') {
-  //       target = e.target.parentNode;
-  //     }
-  //     this.toggleCollapsed(target.parentNode.querySelector('ul'));
-  //   }));
-  // }
+  handleHeaderClick() {
+    const checklists = document.querySelectorAll('.checklist-header');
+    checklists.forEach(list => list.addEventListener('click', e => {
+      let target = e.target;
+      while (target.className !== 'checklist-header') {
+        target = e.target.parentNode;
+      }
+      this.toggleCollapsed(target.parentNode.querySelector('ul'));
+    }));
+  }
 
   handleButtonClick() {
     const buttons = document.querySelectorAll('button');
@@ -467,6 +489,14 @@ class App {
       const target = e.target.dataset.name;
       this.switchProjectList(target);
     }));
+    buttons.forEach(button => {
+      console.log(this.currentList);
+      if (button.dataset.name === this.currentList.toLowerCase()) {
+        button.className = "active";
+      } else {
+        button.className = "";
+      }
+    });
   }
 
   /**
