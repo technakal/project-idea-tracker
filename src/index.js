@@ -1,4 +1,15 @@
-const baseUrl = "https://technakal.github.io/project-ideas-api/data.json";
+const baseUrl = 'https://technakal.github.io/project-ideas-api/data.json';
+const getRandomId = (text) => {
+  const textArray = text.toLowerCase().split("").filter(letter => 'abcdefghijklmnopqrstuvwxyz'.split('').includes(letter));
+  const textLength = textArray.length;
+  let id = "";
+  let counter = 12;
+  while (counter > 0) {
+    id += textArray[Math.floor(Math.random() * textLength)];
+    counter--;
+  }
+  return id;
+}
 
 /**
  * Tests whether a particular type of storage is available on the client machine.
@@ -38,7 +49,7 @@ const storageAvailable = type => {
  */
 class Project {
   constructor(text, category, completed) {
-    this.id = Math.floor(Math.random() * 1000 + 1);
+    this.id = getRandomId(text);
     this._text = text;
     this._category = category.toLowerCase();
     this._completed = completed;
@@ -85,7 +96,7 @@ class Project {
    */
   createProjectElem() {
     return `<li><input type="checkbox" id="${this.id}" ${
-      this.completed ? "checked" : ""
+      this.completed ? 'checked' : ''
     }/><label for="${this.id}">${this.text}</label></li>`;
   }
 }
@@ -153,7 +164,9 @@ class ProjectList {
    */
   get categories() {
     const categories = this.projects.map(project => project.category);
-    return categories.filter((item, index) => categories.indexOf(item) >= index);
+    return categories.filter(
+      (item, index) => categories.indexOf(item) >= index
+    );
   }
 
   /**
@@ -210,13 +223,13 @@ class ProjectList {
    * @returns {string}
    */
   formatCategoryName(category) {
-    const name = category.split(" ").map(word => {
-      if (word !== "and" && word !== "or" && word !== "the") {
+    const name = category.split(' ').map(word => {
+      if (word !== 'and' && word !== 'or' && word !== 'the') {
         return word[0].toUpperCase() + word.slice(1, word.length);
       }
       return word;
     });
-    return name.join(" ");
+    return name.join(' ');
   }
 
   /**
@@ -225,7 +238,7 @@ class ProjectList {
    * @returns {string}
    */
   formatCategoryId(category) {
-    return category.split(" ").join("-");
+    return category.split(' ').join('-');
   }
 
   /**
@@ -240,11 +253,20 @@ class ProjectList {
    *   </div>
    */
   createCategoryElem(category) {
-    const categoryTotal = this.calculateTotalProjects(this.getProjectsByCategory(category));
-    const categoryTotalCompleted = this.calculateTotalCompleted(this.getProjectsByCategory(category));
-    return `<div class="checklist" id="${this.formatCategoryId(category)}"><div class="checklist-header"><h3 class="checklist-title">${this.formatCategoryName(
+    const categoryTotal = this.calculateTotalProjects(
+      this.getProjectsByCategory(category)
+    );
+    const categoryTotalCompleted = this.calculateTotalCompleted(
+      this.getProjectsByCategory(category)
+    );
+    return `<div class="checklist" id="${this.formatCategoryId(
       category
-    )}</h3>${this.createTotalView(categoryTotalCompleted, categoryTotal)}</div><ul class="collapsed"></ul></div>`;
+    )}"><div class="checklist-header"><h3 class="checklist-title">${this.formatCategoryName(
+      category
+    )}</h3>${this.createTotalView(
+      categoryTotalCompleted,
+      categoryTotal
+    )}</div><ul class="collapsed"></ul></div>`;
   }
 
   /**
@@ -253,7 +275,9 @@ class ProjectList {
    * @returns {string} All Category DOM elements
    */
   createCategoryView(categories) {
-    return categories.map(category => this.createCategoryElem(category)).join("");
+    return categories
+      .map(category => this.createCategoryElem(category))
+      .join('');
   }
 
   /**
@@ -264,12 +288,18 @@ class ProjectList {
    *   <span class="checklist-total">0/22</span>
    */
   createTotalView(current, max) {
-    return `<span class="checklist-total ${current == max ? "done" : ""}">${current}/${max}</span>`;
+    return `<span class="checklist-total ${
+      current == max ? 'done' : ''
+    }">${current}/${max}</span>`;
   }
 
   updateTotalView(category) {
-    const max = this.calculateTotalProjects(this.getProjectsByCategory(category));
-    const current = this.calculateTotalCompleted(this.getProjectsByCategory(category));
+    const max = this.calculateTotalProjects(
+      this.getProjectsByCategory(category)
+    );
+    const current = this.calculateTotalCompleted(
+      this.getProjectsByCategory(category)
+    );
     return `${current}/${max}`;
   }
 }
@@ -286,14 +316,14 @@ class App {
     this._projectLists = projectLists;
   }
 
-  /** 
+  /**
    * Getter method for the currentList property.
    */
   get currentList() {
     return this._currentList;
   }
 
-  /** 
+  /**
    * Setter method to update the currentList property.
    * @returns {string}
    */
@@ -309,7 +339,7 @@ class App {
     return this._projectLists;
   }
 
-  /** 
+  /**
    * Setter method for the projectLists property.
    * @returns {array}
    */
@@ -325,7 +355,8 @@ class App {
    */
   findProjectIndex(listName) {
     const projectList = this.projectLists.find(
-      projectList => projectList.listName.toLowerCase() === listName.toLowerCase()
+      projectList =>
+      projectList.listName.toLowerCase() === listName.toLowerCase()
     );
     return this.projectLists.indexOf(projectList);
   }
@@ -341,16 +372,18 @@ class App {
       return {
         listName: projectList.listName,
         source: projectList.source,
-        totalCompleted: projectList.calculateTotalCompleted(projectList.projects),
+        totalCompleted: projectList.calculateTotalCompleted(
+          projectList.projects
+        ),
         projects: projectList.projects.map(project => {
           return {
             text: project.text,
             category: project.category,
             completed: project.completed
-          }
+          };
         })
-      }
-    })
+      };
+    });
     return JSON.stringify(data);
   }
 
@@ -360,7 +393,10 @@ class App {
    */
   saveDataToLocalStorage() {
     localStorage.setItem('currentList', JSON.stringify(this.currentList));
-    localStorage.setItem('projectLists', this.formatProjectsForSave(this.projectLists));
+    localStorage.setItem(
+      'projectLists',
+      this.formatProjectsForSave(this.projectLists)
+    );
     return true;
   }
 
@@ -370,10 +406,10 @@ class App {
    * @returns {node}
    */
   toggleCollapsed(elem) {
-    if (elem.className === "collapsed") {
-      return this.updateClassName(elem, "open");
+    if (elem.className === 'collapsed') {
+      return this.updateClassName(elem, 'open');
     }
-    return this.updateClassName(elem, "collapsed");
+    return this.updateClassName(elem, 'collapsed');
   }
 
   getCurrentProjects() {
@@ -386,7 +422,7 @@ class App {
   }
 
   createAppInDom() {
-    const currentProjects = this.getCurrentProjects()
+    const currentProjects = this.getCurrentProjects();
     this.setSource(currentProjects);
     this.setTotalView(currentProjects);
     this.setCategoryView(currentProjects);
@@ -396,10 +432,11 @@ class App {
   }
 
   setSource(currentProjects) {
-    return this.updateDomLocation('override',
+    return this.updateDomLocation(
+      'override',
       `<a href="${currentProjects.source}">${this.currentList[0].toUpperCase() +
-    this.currentList.slice(1, this.currentList.length)}</a>`,
-      "#source"
+        this.currentList.slice(1, this.currentList.length)}</a>`,
+      '#source'
     );
   }
 
@@ -410,14 +447,14 @@ class App {
         currentProjects.totalCompleted,
         currentProjects.totalProjects
       ),
-      "#totalCompleted"
+      '#totalCompleted'
     );
   }
 
   setCategoryView(currentProjects) {
     const categories = currentProjects.categories;
     const categoryHtml = currentProjects.createCategoryView(categories);
-    return this.updateDomLocation('override', categoryHtml, "#checklists");
+    return this.updateDomLocation('override', categoryHtml, '#checklists');
   }
 
   setProjectsView(currentProjects) {
@@ -425,17 +462,29 @@ class App {
     return categories.map(category => {
       const projectHtml = currentProjects.projects
         .map(project => {
-          return project.category === category ? project.createProjectElem() : null;
+          return project.category === category ?
+            project.createProjectElem() :
+            null;
         })
         .filter(project => project !== null)
-        .join("");
-      this.updateDomLocation('override', projectHtml, `#${category.split(" ").join("-")} ul`);
+        .join('');
+      this.updateDomLocation(
+        'override',
+        projectHtml,
+        `#${category.split(' ').join('-')} ul`
+      );
     });
   }
 
   setProjectSelector() {
     const lists = this.projectLists.map(list => list.listName);
-    const html = lists.map(list => `<button data-name="${list}">${list[0].toUpperCase() + list.slice(1,list.length)}</button>`).join('');
+    const html = lists
+      .map(
+        list =>
+        `<button data-name="${list}">${list[0].toUpperCase() +
+            list.slice(1, list.length)}</button>`
+      )
+      .join('');
     this.updateDomLocation('override', html, `#nav__main`);
   }
 
@@ -447,54 +496,73 @@ class App {
 
   handleCompletedToggle(currentProjects) {
     const uls = document.querySelectorAll('ul');
-    return uls.forEach(ul => ul.addEventListener('click', e => {
-      if (e.target.tagName === 'INPUT') {
-        const project = currentProjects.projects.find(project => project.id == e.target.id);
-        project.completed = e.target.checked;
-        currentProjects.totalCompleted = currentProjects.projects;
-        const categoryTotalContainer = ul.parentElement.firstElementChild.querySelector('.checklist-total');
-        categoryTotalContainer.innerHTML = currentProjects.updateTotalView(project.category)
-        const current = currentProjects.calculateTotalCompleted(currentProjects.getProjectsByCategory(project.category));
-        const max = currentProjects.calculateTotalProjects(currentProjects.getProjectsByCategory(project.category));
-        if (current === max) {
-          categoryTotalContainer.className = "checklist-total done";
-        } else {
-          categoryTotalContainer.className = "checklist-total";
+    return uls.forEach(ul =>
+      ul.addEventListener('click', e => {
+        if (e.target.tagName === 'INPUT') {
+          const project = currentProjects.projects.find(
+            project => project.id == e.target.id
+          );
+          project.completed = e.target.checked;
+          currentProjects.totalCompleted = currentProjects.projects;
+          const categoryTotalContainer = ul.parentElement.firstElementChild.querySelector(
+            '.checklist-total'
+          );
+          categoryTotalContainer.innerHTML = currentProjects.updateTotalView(
+            project.category
+          );
+          const current = currentProjects.calculateTotalCompleted(
+            currentProjects.getProjectsByCategory(project.category)
+          );
+          const max = currentProjects.calculateTotalProjects(
+            currentProjects.getProjectsByCategory(project.category)
+          );
+          if (current === max) {
+            categoryTotalContainer.className = 'checklist-total done';
+          } else {
+            categoryTotalContainer.className = 'checklist-total';
+          }
+          if (
+            currentProjects.totalCompleted === currentProjects.totalCompleted
+          ) {
+            document.querySelector('#totalCompleted span').className =
+              'checklist-total done';
+          } else {
+            document.querySelector('#totalCompleted span').className =
+              'checklist-total';
+          }
+          this.setTotalView(currentProjects);
+          this.saveDataToLocalStorage();
         }
-        if (currentProjects.totalCompleted === currentProjects.totalCompleted) {
-          document.querySelector("#totalCompleted span").className = "checklist-total done";
-        } else {
-          document.querySelector("#totalCompleted span").className = "checklist-total";
-        }
-        this.setTotalView(currentProjects);
-        this.saveDataToLocalStorage();
-      }
-    }));
+      })
+    );
   }
 
   handleHeaderClick() {
     const checklists = document.querySelectorAll('.checklist-header');
-    checklists.forEach(list => list.addEventListener('click', e => {
-      let target = e.target;
-      while (target.className !== 'checklist-header') {
-        target = e.target.parentNode;
-      }
-      this.toggleCollapsed(target.parentNode.querySelector('ul'));
-    }));
+    checklists.forEach(list =>
+      list.addEventListener('click', e => {
+        let target = e.target;
+        while (target.className !== 'checklist-header') {
+          target = e.target.parentNode;
+        }
+        this.toggleCollapsed(target.parentNode.querySelector('ul'));
+      })
+    );
   }
 
   handleButtonClick() {
     const buttons = document.querySelectorAll('button');
-    buttons.forEach(button => button.addEventListener('click', e => {
-      const target = e.target.dataset.name;
-      this.switchProjectList(target);
-    }));
+    buttons.forEach(button =>
+      button.addEventListener('click', e => {
+        const target = e.target.dataset.name;
+        this.switchProjectList(target);
+      })
+    );
     buttons.forEach(button => {
-      console.log(this.currentList);
       if (button.dataset.name === this.currentList.toLowerCase()) {
-        button.className = "active";
+        button.className = 'active';
       } else {
-        button.className = "";
+        button.className = '';
       }
     });
   }
@@ -508,11 +576,11 @@ class App {
    */
   updateDomLocation(command, html, location) {
     if (command === 'override') {
-      return document.querySelector(location).innerHTML = html;
+      return (document.querySelector(location).innerHTML = html);
     } else {
       let currentHtml = document.querySelector(location).innerHTML;
       currentHtml += html;
-      return document.querySelector(location).innerHTML = currentHtml;
+      return (document.querySelector(location).innerHTML = currentHtml);
     }
   }
 
@@ -548,7 +616,12 @@ const initializer = {
    */
   createProjectList(list) {
     const projects = list.projects.map(project => this.createProject(project));
-    return new ProjectList(list.listName, projects, list.source, list.totalCompleted);
+    return new ProjectList(
+      list.listName,
+      projects,
+      list.source,
+      list.totalCompleted
+    );
   },
 
   /**
@@ -556,7 +629,7 @@ const initializer = {
    * @returns {object}
    */
   async retrieveDataSource() {
-    const baseUrl = "https://technakal.github.io/project-ideas-api/data.json";
+    const baseUrl = 'https://technakal.github.io/project-ideas-api/data.json';
     try {
       let response = await fetch(baseUrl);
       let data = await response.json();
@@ -572,17 +645,21 @@ const initializer = {
    */
   async createApp() {
     let data;
-    if (!storageAvailable('localStorage') || localStorage.getItem('currentList') === null) {
+    if (
+      !storageAvailable('localStorage') ||
+      localStorage.getItem('currentList') === null
+    ) {
       data = await this.retrieveDataSource();
-      console.log("Data source is API");
     } else {
       data = await {
         currentList: JSON.parse(localStorage.getItem('currentList')),
         projectLists: JSON.parse(localStorage.getItem('projectLists'))
-      }
-      console.log("Data source is localStorage");
+      };
     }
-    const app = new App(data.currentList, data.projectLists.map(list => this.createProjectList(list)));
+    const app = new App(
+      data.currentList,
+      data.projectLists.map(list => this.createProjectList(list))
+    );
     if (storageAvailable('localStorage')) {
       app.saveDataToLocalStorage();
     }
